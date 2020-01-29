@@ -7,6 +7,7 @@
 </div>
 <section class="content text-center">
   <div class="container">
+    <div class="messages"></div>
     <div class="row">
       <div class="col-sm-4">
         <div class="card">
@@ -92,7 +93,7 @@
                 <input type="text" class="form-control" placeholder="payment uid" id="parent_uid">
                 <input type="text" class="form-control" placeholder="amount" id="amount">
               </div>
-              <button type="button" class="btn btn-secondary">Refund</button>
+              <button type="button" class="btn btn-secondary" onclick="sendChildTxn('refund')">Refund</button>
             </form>
           </div>
         </div>
@@ -132,7 +133,7 @@
 <script type="text/javascript" src="https://js-staging.begateway.com/widget/be_gateway.js"></script>
 <script>
   this.openWidget = function(txn_type) {
-    var formObject = {};
+    // var formObject = {};
     var params = {
       "checkout_url": "https://checkout-staging.begateway.com",
       // "token": "0cd82b41592a264810f9f95cd17c891890d97969d5b85375f2a580744b4614bb",
@@ -174,6 +175,40 @@
         }
       }
     };
-  new BeGateway(params).createWidget();
-};
+    new BeGateway(params).createWidget();
+  };
+
+  let timerId;
+
+  this.sendChildTxn = function(txn_type) {
+    $.ajax({
+      url: "/" + txn_type,
+      type: "post",
+      data: {
+        amount: $("#" + txn_type + " #amount")[0].value,
+        parent_uid: $("#" + txn_type + " #amount")[0].value
+      },
+      beforeSend: function(data) {
+        $('.messages').hide();
+        clearTimeout(timerId);
+        var messages = $('.messages');
+        var successHtml = '<div class="alert alert-warning" role="alert">Sending request...</div>';
+        $(messages).html(successHtml);
+        $('.messages').slideToggle('fast');
+        timerId = setTimeout(function(){ $('.messages').slideToggle('fast'); }, 3000);
+      },
+      success: function(data) {
+        $('.messages').hide();
+        clearTimeout(timerId);
+        var messages = $('.messages')
+        var successHtml = '<div class="alert alert-success" role="alert">' + 'data.message' + '</div>';
+        $(messages).html(successHtml);
+        $('.messages').slideToggle('fast');
+        timerId = setTimeout(function(){ $('.messages').slideToggle('fast'); }, 3000);
+      },
+      error: function(data) {
+        //todo
+      }
+    })
+  };
 </script>
