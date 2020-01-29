@@ -1,0 +1,127 @@
+<div class="container py-1 jumbotron" style="background-color: white">
+  <span style="margin-right: 40%">
+    <%= image_tag 'ecomcharge.png', size: '130x100' %>
+    <%= image_tag 'apple_pay.png', size: '200x100' %>
+  </span>
+  <span style="font-size: 2rem; font-weight: 700">ApplePay test flow</span>
+</div>
+<section class="content text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <form id="authorization">
+              <h4>Authorization</h4>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">BYN</button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item">BYN</a>
+                    <a class="dropdown-item">USD</a>
+                    <a class="dropdown-item">EUR</a>
+                  </div>
+                </div>
+                <input type="text" class="form-control" placeholder="amount" id="amount">
+              </div>
+              <button type="button" class="btn btn-dark">Authorize</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <form id="capture">
+              <h4>Partial shipment</h4>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="authorization uid" id="parent_uid">
+                <input type="text" class="form-control" placeholder="amount" id="amount">
+              </div>
+              <button type="button" class="btn btn-secondary">Capture</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <form id="void">
+              <h4>Void</h4>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="authorization uid" id="parent_uid">
+                <input type="text" class="form-control" placeholder="amount" id="amount">
+              </div>
+              <button type="button" class="btn btn-secondary">Void</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card" style="height: 100%">
+          <div class="card-body">
+            <form id="payment">
+              <h4>One-time</h4>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">BYN</button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item">BYN</a>
+                    <a class="dropdown-item">USD</a>
+                    <a class="dropdown-item">EUR</a>
+                  </div>
+                </div>
+                <input type="text" class="form-control" placeholder="amount" id="amount">
+              </div>
+              <button type="button" class="btn btn-dark">Pay</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <form id="refund">
+              <h4>Refund</h4>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="payment uid" id="parent_uid">
+                <input type="text" class="form-control" placeholder="amount" id="amount">
+              </div>
+              <button type="button" class="btn btn-secondary">Refund</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <form id="recurring">
+              <h4>Recurring payment</h4>
+              <button type="button" class="btn btn-dark">Pay</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <form id="close_day">
+              <h4>Settlement</h4>
+              <input type="text" class="form-control" placeholder="gateway id" id="gateway_id">
+              <button type="button" class="btn btn-outline-dark">Close day</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
