@@ -7,7 +7,7 @@
 </div>
 <section class="content text-center">
   <div class="container">
-    <div class="messages"></div>
+    <div class="messages" style="display: none"></div>
     <div class="row">
       <div class="col-sm-4">
         <div class="card">
@@ -40,7 +40,7 @@
                 <input type="text" class="form-control" placeholder="authorization uid" id="parent_uid">
                 <input type="text" class="form-control" placeholder="amount" id="amount">
               </div>
-              <button type="button" class="btn btn-secondary">Capture</button>
+              <button type="button" class="btn btn-secondary" onclick="sendChildTxn('capture')">Capture</button>
             </form>
           </div>
         </div>
@@ -54,7 +54,7 @@
                 <input type="text" class="form-control" placeholder="authorization uid" id="parent_uid">
                 <input type="text" class="form-control" placeholder="amount" id="amount">
               </div>
-              <button type="button" class="btn btn-secondary">Void</button>
+              <button type="button" class="btn btn-secondary" onclick="sendChildTxn('void')">Void</button>
             </form>
           </div>
         </div>
@@ -180,34 +180,33 @@
 
   let timerId;
 
+  showMessage = function(alert, message) {
+    clearTimeout(timerId);
+    if ($('.messages').is(':visible')) { $('.messages').slideUp('fast') };
+    var messages = $('.messages')
+    var successHtml = '<div class="alert alert-' + alert + '" role="alert">' + message + '</div>';
+    $(messages).html(successHtml);
+    $('.messages').slideDown('fast');
+    timerId = setTimeout(function(){ $('.messages').slideUp('fast'); }, 5000);
+  }
+
   this.sendChildTxn = function(txn_type) {
     $.ajax({
       url: "/" + txn_type,
       type: "post",
       data: {
         amount: $("#" + txn_type + " #amount")[0].value,
-        parent_uid: $("#" + txn_type + " #amount")[0].value
+        parent_uid: $("#" + txn_type + " #parent_uid")[0].value
       },
+      datatype: 'script',
       beforeSend: function(data) {
-        $('.messages').hide();
-        clearTimeout(timerId);
-        var messages = $('.messages');
-        var successHtml = '<div class="alert alert-warning" role="alert">Sending request...</div>';
-        $(messages).html(successHtml);
-        $('.messages').slideToggle('fast');
-        timerId = setTimeout(function(){ $('.messages').slideToggle('fast'); }, 3000);
+        showMessage('warning', 'Sending request...')
       },
       success: function(data) {
-        $('.messages').hide();
-        clearTimeout(timerId);
-        var messages = $('.messages')
-        var successHtml = '<div class="alert alert-success" role="alert">' + 'data.message' + '</div>';
-        $(messages).html(successHtml);
-        $('.messages').slideToggle('fast');
-        timerId = setTimeout(function(){ $('.messages').slideToggle('fast'); }, 3000);
+        showMessage('success', data.message)
       },
       error: function(data) {
-        //todo
+        showMessage('danger', data.message)
       }
     })
   };
