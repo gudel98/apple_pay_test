@@ -24,7 +24,7 @@
                     <a class="dropdown-item">EUR</a>
                   </div>
                 </div>
-                <input type="text" class="form-control" placeholder="amount" id="amount">
+                <input type="text" class="form-control" placeholder="amount(0.00)" id="amount">
               </div>
               <button type="button" class="btn btn-dark" onclick="openWidget('authorization')">Authorize</button>
             </form>
@@ -38,7 +38,7 @@
               <h4>Partial shipment</h4>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="authorization uid" id="parent_uid">
-                <input type="text" class="form-control" placeholder="amount" id="amount">
+                <input type="text" class="form-control" placeholder="amount(0.00)" id="amount">
               </div>
               <button type="button" class="btn btn-secondary" onclick="sendChildTxn('capture')">Capture</button>
             </form>
@@ -52,7 +52,7 @@
               <h4>Void</h4>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="authorization uid" id="parent_uid">
-                <input type="text" class="form-control" placeholder="amount" id="amount">
+                <input type="text" class="form-control" placeholder="amount(0.00)" id="amount">
               </div>
               <button type="button" class="btn btn-secondary" onclick="sendChildTxn('void')">Void</button>
             </form>
@@ -77,7 +77,7 @@
                     <a class="dropdown-item">EUR</a>
                   </div>
                 </div>
-                <input type="text" class="form-control" placeholder="amount" id="amount">
+                <input type="text" class="form-control" placeholder="amount(0.00)" id="amount">
               </div>
               <button type="button" class="btn btn-dark" onclick="openWidget('payment')">Pay</button>
             </form>
@@ -91,7 +91,7 @@
               <h4>Refund</h4>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="payment uid" id="parent_uid">
-                <input type="text" class="form-control" placeholder="amount" id="amount">
+                <input type="text" class="form-control" placeholder="amount(0.00)" id="amount">
               </div>
               <button type="button" class="btn btn-secondary" onclick="sendChildTxn('refund')">Refund</button>
             </form>
@@ -106,7 +106,20 @@
           <div class="card-body">
             <form id="recurring">
               <h4>Recurring payment</h4>
-              <button type="button" class="btn btn-dark">Pay</button>
+              <input type="text" class="form-control" placeholder="credit card token" id="token">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary dropdown-toggle"
+                          type="button" data-toggle="dropdown" id="currency" value="BYN">BYN</button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item">BYN</a>
+                    <a class="dropdown-item">USD</a>
+                    <a class="dropdown-item">EUR</a>
+                  </div>
+                </div>
+                <input type="text" class="form-control" placeholder="amount(0.00)" id="amount">
+              </div>
+              <button type="button" class="btn btn-dark" onclick="sendRecurring()">Pay</button>
             </form>
           </div>
         </div>
@@ -197,6 +210,29 @@
       data: {
         amount: $("#" + txn_type + " #amount")[0].value,
         parent_uid: $("#" + txn_type + " #parent_uid")[0].value
+      },
+      datatype: 'script',
+      beforeSend: function(data) {
+        showMessage('warning', 'Sending request...')
+      },
+      success: function(data) {
+        if (data.status == 200) {
+          showMessage('success', data.message);
+        } else {
+          showMessage('danger', data.message);
+        }
+      }
+    })
+  };
+
+  this.sendRecurring = function() {
+    $.ajax({
+      url: "/recurring",
+      type: "post",
+      data: {
+        amount: $("#recurring #amount")[0].value,
+        currency: $("#recurring #currency")[0].value,
+        token: $("#recurring #token")[0].value
       },
       datatype: 'script',
       beforeSend: function(data) {

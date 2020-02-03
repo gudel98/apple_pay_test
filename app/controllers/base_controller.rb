@@ -29,6 +29,35 @@ class BaseController < ApplicationController
     commit('refund', data)
   end
 
+  def recurring
+    data = {
+      request: {
+        amount: money_format(params[:amount]),
+        currency: params[:currency],
+        description: "ApplePay test recurring payment",
+        tracking_id: "apple_pay_test_tracking_id",
+        test: true,
+        billing_address: {
+          first_name: "John",
+          last_name: "Doe",
+          country: "US",
+          city: "Denver",
+          state: "CO",
+          zip: "96002",
+          address: "1st Street"
+        },
+        credit_card: {
+          token: params[:token]
+        },
+        customer: {
+          ip: "127.0.0.1",
+          email: "john@example.com"
+        }
+      }
+    }
+    commit('payment', data)
+  end
+
   def close_day
     data = {
       gateway_id: params[:gateway_id],
@@ -42,8 +71,13 @@ class BaseController < ApplicationController
   def commit(type, data)
     response = connection.public_send(type, data)
     if response&.transaction&.successful?
-      message = "#{params[:parent_uid]}: #{params[:amount]} " \
-                "#{response.transaction.currency} was successfully #{type}#{type == 'capture' ? 'd' : 'ed'}"
+      result  = case type
+                when 'capture' then 'captured'
+                when 'void'    then 'voided'
+                when 'refund'  then 'refunded'
+                when 'payment' then 'paid'
+                end
+      message = "#{params[:parent_uid]}: #{params[:amount]} #{response.transaction.currency} was successfully #{result}"
       render json: { status: 200, message: message }
     else
       render json: { status: response.status, message: response.message }
