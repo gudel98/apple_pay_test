@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   post '/capture', to: 'base#capture'
   post '/void',    to: 'base#void'
   post '/refund',  to: 'base#refund'
+  post '/close_day', to: 'base#close_day'
 end
