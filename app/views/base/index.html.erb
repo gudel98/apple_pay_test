@@ -3,7 +3,7 @@
     <%= image_tag 'ecomcharge.png', size: '130x100' %>
     <%= image_tag 'apple_pay.png', size: '200x100' %>
   </span>
-  <span style="font-size: 2rem; font-weight: 700">ApplePay test flow</span>
+  <span style="font-size: 2rem; font-weight: 700">ApplePay Test</span>
 </div>
 <section class="content text-center">
   <div class="container">
@@ -132,7 +132,18 @@
           <div class="card-body">
             <form id="close_day">
               <h4>Settlement</h4>
-              <input type="text" class="form-control" placeholder="gateway id" id="gateway_id">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary dropdown-toggle"
+                          type="button" data-toggle="dropdown" id="currency" value="BYN">BYN</button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item">BYN</a>
+                    <a class="dropdown-item">USD</a>
+                    <a class="dropdown-item">EUR</a>
+                  </div>
+                </div>
+                <input type="text" class="form-control" placeholder="gateway id" id="gateway_id">
+              </div>
               <button type="button" class="btn btn-outline-dark" onclick="sendCloseDay()">Close day</button>
             </form>
           </div>
@@ -175,6 +186,7 @@
         }
       },
       closeWidget: function(status) {
+        // here custom
         console.log(status);
         if (status === 'successful' || status === 'success') {
           $('#begateway-payment-accepted-info').show();
@@ -236,7 +248,8 @@
       },
       datatype: 'script',
       beforeSend: function(data) {
-        showMessage('warning', 'Sending request...')
+        showMessage('warning', 'Sending request...');
+        $(window).scrollTop(0);
       },
       success: function(data) {
         if (data.status == 200) {
@@ -253,11 +266,13 @@
       url: "/close_day",
       type: "post",
       data: {
-        gateway_id: $("#close_day #gateway_id")[0].value
+        gateway_id: $("#close_day #gateway_id")[0].value,
+        currency: $("#close_day #currency")[0].value
       },
       datatype: 'script',
       beforeSend: function(data) {
         showMessage('warning', 'Sending request...')
+        $(window).scrollTop(0);
       },
       success: function(data) {
         if (data.status == 200) {

@@ -61,7 +61,7 @@ class BaseController < ApplicationController
   def close_day
     data = {
       gateway_id: params[:gateway_id],
-      ccy: 'BYN'
+      ccy: params[:currency]
     }
     commit('close_days', data)
   end
