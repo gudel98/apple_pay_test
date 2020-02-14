@@ -14,7 +14,6 @@ class BaseController < ApplicationController
 
   def void
     data = {
-      amount: money_format(params[:amount]),
       parent_uid: params[:parent_uid]
     }
     commit('void', data)
