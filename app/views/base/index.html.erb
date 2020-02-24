@@ -157,90 +157,104 @@
 <script type="text/javascript" src="https://js-staging.begateway.com/widget/be_gateway.js"></script>
 <script>
   this.openWidget = function(txn_type) {
-    var formObject = {};
-    var currency = $("#" + txn_type + " #currency")[0].value;
-    var amount = parseInt( $("#" + txn_type + " #amount")[0].value ) * 100;
-    var params = {
-      checkout_url: "https://checkout-staging.begateway.com",
-      widget: "https://js-staging.begateway.com/widget/widget.html",
-      style: {
-        header: {
-          backgroundColor: '#fff',
-          border: 'none'
-        },
-        headerPrice: {
-          color: '#fff'
-        },
-        footer: {
-          backgroundColor: '#fff',
-          border: 'none'
-        },
-        cardButton: {
-          backgroundColor: '#26d893',
-          border: 'none'
-        },
-        methodButton: {
-          backgroundColor: '#26d893',
-          border: 'none'
-        },
-        paymentResultButton: {
-          backgroundColor: '#26d893',
-          border: 'none'
-        }
+    $.ajax({
+      url: "/" + txn_type,
+      type: "post",
+      data: {
+        amount: $("#" + txn_type + " #amount")[0].value,
+        currency: $("#" + txn_type + " #currency")[0].value,
+        txn_type: txn_type
       },
-      checkout: {
-        iframe: true,
-        test: true,
-        transaction_type: txn_type,
-        // Demo shop authorization token:
-        attempts: 1,
-        public_key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtE3/Z3W3dQ8e5WbQrV/74THSOgX0EFHUrAikS0TUqfrxk5caEW8peb9AXXKtAjM7Hl28couSr39YfxfaKPuCcwtML9Q+z7pQBLVzLFHiGRytBStlNkOVY3pPiM9cfkqGX/oSCuaS3c+xY8LNZeYCDoQcQzQW95sqAdqzzp18Mo3Lpv2IpLYVC+64O9tIXoCz7LVAKpm7R4pCFb5Pc8BestDGUnH1MS9MsrmvtEu5EXSDLe0biY146sWoOKtuMduqdDZOU4E/k51ZVto8Lt7/2DV7NbmdHoMvb2ws5aMaVUT3An4xFzJe97ATPp9M8DMFYojgfPSTBtlsC5KswsRCHQIDAQAB",
-        order: {
-          amount: amount,
-          currency: currency,
-          description: "ApplePay test order",
-          additional_data: {
-            customer: {
-              id: "b17727a9-0632-4454-b639-b941826be36f"
-            }
-          }
-        },
-        payment_method: {
-          // types: ["visa", "halva", "erip", "much_better", "qiwi", "bank_pay"],
-          bank_pay: { channel: "Hexopay" },
-          cash_to_code: { channel: "Hexopay" },
-          much_better: { channel: "1|Hexopay" },
-          pay_r_transfer: { channel: "ONLINE" },
-          qiwi: { channel: "qw|Hexopay" },
-          safety_pay: { channel: "ONLINE" },
-          skrill: { account: "admin+buyer@ecomcharge.com" }
-        },
-        settings: {
-          language: "ru",
-          return_url: "",
-          notification_url: "",
-          require: []
-        }
-      },
-      closeWidget: function(status) {
-        console.log('close widget callback with status:', status)
+      datatype: 'script',
+      beforeSend: function(data) {
+        showMessage('warning', 'Sending request...')
       }
-    };
-    // var form = document.getElementById('paymentForm');
-    // var data = new FormData(form);
+    })
 
-    // $.map($('form').serializeArray(), function (v, i) {
-    //   formObject[v['name']] = v['value']
-    // })
+    // var formObject = {};
+    // var currency = $("#" + txn_type + " #currency")[0].value;
+    // var amount = parseInt( $("#" + txn_type + " #amount")[0].value ) * 100;
+    // var params = {
+    //   checkout_url: "https://checkout-staging.begateway.com",
+    //   widget: "https://js-staging.begateway.com/widget/widget.html",
+    //   style: {
+    //     header: {
+    //       backgroundColor: '#fff',
+    //       border: 'none'
+    //     },
+    //     headerPrice: {
+    //       color: '#fff'
+    //     },
+    //     footer: {
+    //       backgroundColor: '#fff',
+    //       border: 'none'
+    //     },
+    //     cardButton: {
+    //       backgroundColor: '#26d893',
+    //       border: 'none'
+    //     },
+    //     methodButton: {
+    //       backgroundColor: '#26d893',
+    //       border: 'none'
+    //     },
+    //     paymentResultButton: {
+    //       backgroundColor: '#26d893',
+    //       border: 'none'
+    //     }
+    //   },
+    //   checkout: {
+    //     iframe: true,
+    //     test: true,
+    //     transaction_type: txn_type,
+    //     // Demo shop authorization token:
+    //     attempts: 1,
+    //     public_key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtE3/Z3W3dQ8e5WbQrV/74THSOgX0EFHUrAikS0TUqfrxk5caEW8peb9AXXKtAjM7Hl28couSr39YfxfaKPuCcwtML9Q+z7pQBLVzLFHiGRytBStlNkOVY3pPiM9cfkqGX/oSCuaS3c+xY8LNZeYCDoQcQzQW95sqAdqzzp18Mo3Lpv2IpLYVC+64O9tIXoCz7LVAKpm7R4pCFb5Pc8BestDGUnH1MS9MsrmvtEu5EXSDLe0biY146sWoOKtuMduqdDZOU4E/k51ZVto8Lt7/2DV7NbmdHoMvb2ws5aMaVUT3An4xFzJe97ATPp9M8DMFYojgfPSTBtlsC5KswsRCHQIDAQAB",
+    //     order: {
+    //       amount: amount,
+    //       currency: currency,
+    //       description: "ApplePay test order",
+    //       additional_data: {
+    //         customer: {
+    //           id: "b17727a9-0632-4454-b639-b941826be36f"
+    //         }
+    //       }
+    //     },
+    //     payment_method: {
+    //       // types: ["visa", "halva", "erip", "much_better", "qiwi", "bank_pay"],
+    //       bank_pay: { channel: "Hexopay" },
+    //       cash_to_code: { channel: "Hexopay" },
+    //       much_better: { channel: "1|Hexopay" },
+    //       pay_r_transfer: { channel: "ONLINE" },
+    //       qiwi: { channel: "qw|Hexopay" },
+    //       safety_pay: { channel: "ONLINE" },
+    //       skrill: { account: "admin+buyer@ecomcharge.com" }
+    //     },
+    //     settings: {
+    //       language: "ru",
+    //       return_url: "",
+    //       notification_url: "",
+    //       require: []
+    //     }
+    //   },
+    //   closeWidget: function(status) {
+    //     console.log('close widget callback with status:', status)
+    //   }
+    // };
+    // // var form = document.getElementById('paymentForm');
+    // // var data = new FormData(form);
 
-    // params.checkout.public_key = formObject.public_key;
-    // params.checkout.order.amount = formObject.amount;
-    // params.checkout.order.currency = formObject.currency;
-    // params.checkout.settings.language = formObject.language;
-    // params.checkout.settings.notification_url = formObject.notification_url;
-    // params.checkout.settings.return_url = formObject.return_url;
+    // // $.map($('form').serializeArray(), function (v, i) {
+    // //   formObject[v['name']] = v['value']
+    // // })
 
-    new BeGateway(params).createWidget();
+    // // params.checkout.public_key = formObject.public_key;
+    // // params.checkout.order.amount = formObject.amount;
+    // // params.checkout.order.currency = formObject.currency;
+    // // params.checkout.settings.language = formObject.language;
+    // // params.checkout.settings.notification_url = formObject.notification_url;
+    // // params.checkout.settings.return_url = formObject.return_url;
+
+    // new BeGateway(params).createWidget();
   };
 
   let timerId;

@@ -1,7 +1,18 @@
 class BaseController < ApplicationController
   skip_before_action :verify_authenticity_token, except: :index
 
+  DEMO_SHOP_ID = 1
+  DEMO_SHOP_SECRET_KEY = '0a3d7a695183b575a51afff999202600d818aac78af25e712649708a4a596a54'
+
   def index
+  end
+
+  def authorization
+    redirect_with_token
+  end
+
+  def payment
+    redirect_with_token
   end
 
   def capture
@@ -33,24 +44,24 @@ class BaseController < ApplicationController
       request: {
         amount: money_format(params[:amount]),
         currency: params[:currency],
-        description: "ApplePay test recurring payment",
-        tracking_id: "apple_pay_test_tracking_id",
+        description: 'ApplePay test recurring payment',
+        tracking_id: 'apple_pay_test_tracking_id',
         test: true,
         billing_address: {
-          first_name: "John",
-          last_name: "Doe",
-          country: "US",
-          city: "Denver",
-          state: "CO",
-          zip: "96002",
-          address: "1st Street"
+          first_name: 'John',
+          last_name: 'Doe',
+          country: 'US',
+          city: 'Denver',
+          state: 'CO',
+          zip: '96002',
+          address: '1st Street'
         },
         credit_card: {
           token: params[:token]
         },
         customer: {
-          ip: "127.0.0.1",
-          email: "john@example.com"
+          ip: '127.0.0.1',
+          email: 'john@example.com'
         }
       }
     }
@@ -67,8 +78,25 @@ class BaseController < ApplicationController
 
   private
 
+  def redirect_with_token
+    data = {
+      test: true,
+      transaction_type: params[:txn_type],
+      order: {
+        amount: money_format(params[:amount]),
+        currency: params[:currency],
+        description: "ApplePay test #{params[:txn_type]}"
+      },
+      customer: {},
+      settings: {}
+    }
+
+    token = ctp_connection.get_token(data)&.dig('checkout', 'token')
+    redirect_to "https://js-staging.begateway.com/widget/widget_launch.html?token=#{token}"
+  end
+
   def commit(type, data)
-    response = connection.public_send(type, data)
+    response = gw_connection.public_send(type, data)
     if response&.transaction&.successful?
       result  = case type
                 when 'capture' then 'captured'
@@ -95,11 +123,19 @@ class BaseController < ApplicationController
     amount.to_i * 100
   end
 
-  def connection
-    @connection ||= BeGateway::Client.new(
-      shop_id: 1,
-      secret_key: '0a3d7a695183b575a51afff999202600d818aac78af25e712649708a4a596a54',
+  def gw_connection
+    @gw_connection ||= BeGateway::Client.new(
+      shop_id: DEMO_SHOP_ID,
+      secret_key: DEMO_SHOP_SECRET_KEY,
       url: 'https://demo-gateway-staging.begateway.com'
+    )
+  end
+
+  def ctp_connection
+    @ctp_connection ||= BeGateway::Checkout.new(
+      shop_id: DEMO_SHOP_ID,
+      secret_key: DEMO_SHOP_SECRET_KEY,
+      url: 'https://checkout-staging.begateway.com'
     )
   end
 end
