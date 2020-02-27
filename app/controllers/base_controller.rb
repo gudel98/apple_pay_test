@@ -90,7 +90,13 @@ class BaseController < ApplicationController
       customer: {},
       settings: {
         return_url: 'https://ecomcharge-applepay.herokuapp.com/'
-      }
+      },
+      brands: [
+        {
+          alternative: false
+          name: "visa"
+        }
+      ]
     }
 
     token = ctp_connection.get_token(data)&.dig('checkout', 'token')
