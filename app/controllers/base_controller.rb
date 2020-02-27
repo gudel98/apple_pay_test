@@ -93,7 +93,7 @@ class BaseController < ApplicationController
       },
       brands: [
         {
-          alternative: false
+          alternative: false,
           name: "visa"
         }
       ]
