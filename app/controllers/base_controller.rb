@@ -88,7 +88,9 @@ class BaseController < ApplicationController
         description: "ApplePay test #{params[:txn_type]}"
       },
       customer: {},
-      settings: {}
+      settings: {
+        return_url: 'https://ecomcharge-applepay.herokuapp.com/'
+      }
     }
 
     token = ctp_connection.get_token(data)&.dig('checkout', 'token')
