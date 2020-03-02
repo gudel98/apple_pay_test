@@ -80,27 +80,32 @@ class BaseController < ApplicationController
 
   def redirect_with_token
     data = {
-      test: true,
-      transaction_type: params[:txn_type],
-      order: {
-        amount: money_format(params[:amount]),
-        currency: params[:currency],
-        description: "ApplePay test #{params[:txn_type]}"
-      },
-      customer: {},
-      settings: {
-        return_url: 'https://ecomcharge-applepay.herokuapp.com/'
-      },
-      brands: [
-        {
-          alternative: false,
-          name: "visa"
-        }
-      ]
+      checkout: {
+        test: true,
+        transaction_type: params[:txn_type],
+        order: {
+          amount: money_format(params[:amount]),
+          currency: params[:currency],
+          description: "ApplePay test #{params[:txn_type]}"
+        },
+        customer: {},
+        settings: {
+          return_url: 'https://ecomcharge-applepay.herokuapp.com/'
+        },
+        brands: [
+          {
+            alternative: false,
+            name: "visa"
+          }
+        ]
+      }
     }
 
-    token = ctp_connection.get_token(data)&.dig('checkout', 'token')
+    require "pry"; binding.pry
+    token = ctp_connection.post('https://checkout-staging.begateway.com/ctp/api/checkouts', data.to_json)&.dig('checkout', 'token')
     redirect_to "https://js-staging.begateway.com/widget/widget_launch.html?token=#{token}"
+  rescue Faraday::ConnectionFailed => error
+    render json: { status: 500, message: error.message }
   end
 
   def commit(type, data)
@@ -140,10 +145,13 @@ class BaseController < ApplicationController
   end
 
   def ctp_connection
-    @ctp_connection ||= BeGateway::Checkout.new(
-      shop_id: DEMO_SHOP_ID,
-      secret_key: DEMO_SHOP_SECRET_KEY,
-      url: 'https://checkout-staging.begateway.com'
-    )
+    @ctp_connection ||= Faraday::Connection.new(ssl: { verify: false }) do |c|
+      c.headers['Content-Type'] = 'application/json'
+      c.headers['X-Api-Version'] = '2.1'
+      c.options[:open_timeout] = 5
+      c.options[:timeout] = 20
+      c.request(:basic_auth, DEMO_SHOP_ID, DEMO_SHOP_SECRET_KEY)
+      c.adapter(Faraday.default_adapter)
+    end
   end
 end
