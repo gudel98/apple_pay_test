@@ -101,10 +101,14 @@ class BaseController < ApplicationController
       }
     }
 
-    require "pry"; binding.pry
-    token = ctp_connection.post('https://checkout-staging.begateway.com/ctp/api/checkouts', data.to_json)&.dig('checkout', 'token')
+    response = ctp_connection.post('https://checkout-staging.begateway.com/ctp/api/checkouts', data.to_json)
+    token    = JSON.parse(response.body).dig('checkout', 'token')
     redirect_to "https://js-staging.begateway.com/widget/widget_launch.html?token=#{token}"
   rescue Faraday::ConnectionFailed => error
+    render json: { status: 500, message: error.message }
+  rescue JSON::ParserError, TypeError
+    render json: { status: 500, message: 'Unable to parse CTP response' }
+  rescue => error
     render json: { status: 500, message: error.message }
   end
 
