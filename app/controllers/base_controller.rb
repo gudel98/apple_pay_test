@@ -7,6 +7,9 @@ class BaseController < ApplicationController
   def index
   end
 
+  def docs
+  end
+
   def authorization
     redirect_with_token
   end

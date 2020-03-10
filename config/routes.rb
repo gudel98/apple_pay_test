@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   get  'base/index'
   root 'base#index'
 
+  get '/docs', to: 'base#docs'
+
   post '/authorization', to: 'base#authorization'
   post '/payment',   to: 'base#payment'
   post '/capture',   to: 'base#capture'

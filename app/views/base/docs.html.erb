@@ -1,0 +1,118 @@
+<div class="container py-1 jumbotron" style="background-color: white">
+  <span style="margin-right: 40%">
+    <%= image_tag 'ecomcharge.png', size: '130x100' %>
+    <%= image_tag 'apple_pay.png', size: '200x100' %>
+  </span>
+  <span style="font-size: 2rem; font-weight: 700">ApplePay Test</span>
+</div>
+
+<section class="content text-center">
+  <div class="container" style="padding: inherit">
+    <div class="messages" style="display: none"></div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body text-left">
+            <h2>Gateway request</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body text-left">
+            <code><pre>
+    params: {
+      test: true,
+      description: 'Test Apple Pay transaction',
+      tracking_id: 'apple_pay_tracking_id',
+      billing_address: {
+        first_name: 'John',
+        last_name: 'Doe',
+        country: 'US',
+        city: 'Denver',
+        state: 'CO',
+        zip: '96002',
+        address: '1st Street'
+      },
+      credit_card: {
+        token: payment_token
+      },
+      customer: {
+        ip: '127.0.0.1',
+        email: 'john@example.com',
+        device_id: 'apple_pay_test_device_id',
+        birth_date: '1980-01-01'
+      }
+    }
+            </pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body text-left">
+            <h4>payment_token</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body text-left">
+            1. If you have payment token received from Apple Pay:<br>
+            <code>payment_token = "$begateway_apple_pay_1_0_0$eyJwY...EIn0="</code>
+            <br>
+            <em>payment_token will be decrypted by merchant/psp processing key/cert.</em><br>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body text-left">
+            2. If you have decoded response from Apple Pay like this:
+            <code><pre>
+    {
+      "applicationPrimaryAccountNumber"=>"4200000000000000",
+      "applicationExpirationDate"=>"230131",
+      "currencyCode"=>"643",
+      "transactionAmount"=>10000,
+      "deviceManufacturerIdentifier"=>"050110030273",
+      "paymentDataType"=>"3DSecure",
+      "paymentData"=>{
+        "onlinePaymentCryptogram"=>"AP6MRIToJVXXXXXXXXXXAoABFA=="
+      }
+    }
+            </pre></code>
+            you should:<br>
+            a) wrap params to 'paymentData' key;<br>
+            b) convert it to JSON;<br>
+            c) encode to Base64 format.<br>
+            <code><pre>
+    data = {
+      "paymentData"=>{
+        "applicationPrimaryAccountNumber"=>"5597907806174276",
+        "applicationExpirationDate"=>"230131",
+        "currencyCode"=>"643",
+        "transactionAmount"=>10000,
+        "deviceManufacturerIdentifier"=>"050110030273",
+        "paymentDataType"=>"3DSecure",
+        "paymentData"=>{
+          "onlinePaymentCryptogram"=>"AP6MRIToJV3bAAEcMTKNAoABFA=="
+        }
+      }
+    }.to_json
+            </pre></code>
+            <code>payment_token = "$begateway_apple_pay_1_0_0$#{Base64.strict_encode64(data)}"</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
