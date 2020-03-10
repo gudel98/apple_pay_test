@@ -13,7 +13,7 @@
       <div class="col-sm-12">
         <div class="card">
           <div class="card-body text-left">
-            <h2>Gateway request</h2>
+            <h4>A. Gateway request params</h4>
           </div>
         </div>
       </div>
@@ -55,7 +55,7 @@
       <div class="col-sm-12">
         <div class="card">
           <div class="card-body text-left">
-            <h4>payment_token</h4>
+            <h4>B. Payment token</h4>
           </div>
         </div>
       </div>
@@ -110,6 +110,29 @@
     }.to_json
             </pre></code>
             <code>payment_token = "$begateway_apple_pay_1_0_0$#{Base64.strict_encode64(data)}"</code>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body text-left">
+            <h4>C. Processing flow</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body text-left">
+            After payment_token decryption we:<br>
+            1. Set amount and currency from Apple Pay token;<br>
+            2. Set credit card number/expiry date from Apple Pay token;<br>
+            3. Set credit card 'dsrp' parameter as 'apple_pay';<br>
+            4. Save 'onlinePaymentCryptogram' as CAVV parameter for acquirer processing;<br>
+            5. Process transaction.<br>
           </div>
         </div>
       </div>
