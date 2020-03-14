@@ -1,8 +1,8 @@
 class BaseController < ApplicationController
   skip_before_action :verify_authenticity_token, except: :index
 
-  DEMO_SHOP_ID = 1
-  DEMO_SHOP_SECRET_KEY = '0a3d7a695183b575a51afff999202600d818aac78af25e712649708a4a596a54'
+  DEMO_SHOP_ID = 29
+  DEMO_SHOP_SECRET_KEY = 'f1814518ba6451bd85d961480c9387b482bda215decb8ae5ca6b86f80d1e868b'
 
   def index
   end
