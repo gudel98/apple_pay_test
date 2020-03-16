@@ -98,7 +98,19 @@ class BaseController < ApplicationController
         brands: [
           {
             alternative: false,
-            name: "visa"
+            name: 'visa'
+          },
+          {
+            alternative: false,
+            name: 'master'
+          },
+          {
+            alternative: false,
+            name: 'discover'
+          },
+          {
+            alternative: false,
+            name: 'amex'
           }
         ]
       }
