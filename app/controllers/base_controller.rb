@@ -94,25 +94,7 @@ class BaseController < ApplicationController
         customer: {},
         settings: {
           return_url: 'https://ecomcharge-applepay.herokuapp.com/'
-        },
-        brands: [
-          {
-            alternative: false,
-            name: 'visa'
-          },
-          {
-            alternative: false,
-            name: 'master'
-          },
-          {
-            alternative: false,
-            name: 'discover'
-          },
-          {
-            alternative: false,
-            name: 'amex'
-          }
-        ]
+        }
       }
     }
 
