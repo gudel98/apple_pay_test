@@ -49,7 +49,7 @@ class BaseController < ApplicationController
         currency: params[:currency],
         description: 'ApplePay test recurring payment',
         tracking_id: 'apple_pay_test_tracking_id',
-        test: true,
+        test: false,
         billing_address: {
           first_name: 'John',
           last_name: 'Doe',
@@ -84,7 +84,7 @@ class BaseController < ApplicationController
   def redirect_with_token
     data = {
       checkout: {
-        test: true,
+        test: false,
         transaction_type: params[:txn_type],
         order: {
           amount: money_format(params[:amount]),
