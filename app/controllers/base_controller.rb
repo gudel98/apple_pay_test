@@ -99,8 +99,8 @@ class BaseController < ApplicationController
     }
 
     response = ctp_connection.post('https://checkout-staging.begateway.com/ctp/api/checkouts', data.to_json)
-    token    = JSON.parse(response.body).dig('checkout', 'token')
-    redirect_to "https://js-staging.begateway.com/widget/widget_launch.html?token=#{token}"
+    response = JSON.parse(response.body)['checkout']
+    redirect_to "https://#{URI(response['redirect_url']).host}/widget/widget_launch.html?token=#{response['token']}"
   rescue Faraday::ConnectionFailed => error
     render json: { status: 500, message: error.message }
   rescue JSON::ParserError, TypeError
