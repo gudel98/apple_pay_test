@@ -95,7 +95,7 @@ class BaseController < ApplicationController
         customer: {},
         settings: {
           return_url: 'https://ecomcharge-applepay.herokuapp.com/',
-          language: I18n.locale
+          language: I18n.locale.to_s
         }
       }
     }
