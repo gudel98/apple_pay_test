@@ -5,6 +5,7 @@ class BaseController < ApplicationController
   DEMO_SHOP_SECRET_KEY = 'f1814518ba6451bd85d961480c9387b482bda215decb8ae5ca6b86f80d1e868b'
 
   def index
+    I18n.locale = params[:locale] || 'en'
   end
 
   def docs
@@ -93,7 +94,8 @@ class BaseController < ApplicationController
         },
         customer: {},
         settings: {
-          return_url: 'https://ecomcharge-applepay.herokuapp.com/'
+          return_url: 'https://ecomcharge-applepay.herokuapp.com/',
+          language: I18n.locale
         }
       }
     }

@@ -1,0 +1,20 @@
+da:
+  amount: 'beløb(0.00)'
+  apple_pay_test: Apple Pay Test
+  authorization: Bemyndigelse
+  authorization_button: Bemyndigelse
+  authorization_uid: 'transaktion uid (Bemyndigelse)'
+  capture: Partial shipment
+  capture_button: Capture
+  void: Intet transaktionstype
+  void_button: Intet transaktionstype
+  payment: Betalings transaktionstype
+  payment_button: Betalings transaktionstype
+  payment_uid: 'transaktion uid (Betalings transaktionstype)'
+  refund: Tilbagebetalings transaktionstype
+  refund_button: Tilbagebetalings transaktionstype
+  recurring_payment: Recurring payment
+  credit_card_token: credit card token
+  settlement: Settlement
+  settlement_button: Close day
+  gateway_id: gateway id

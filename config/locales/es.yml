@@ -1,0 +1,20 @@
+es:
+  amount: 'monto(0.00)'
+  apple_pay_test: Apple Pay Prueba
+  authorization: Autorización
+  authorization_button: Autorización
+  authorization_uid: 'uid de transacción (Autorización)'
+  capture: Capture
+  capture_button: Capture
+  void: Retención
+  void_button: Retención
+  payment: Pago
+  payment_button: Pago
+  payment_uid: 'uid de transacción (Pago)'
+  refund: Reintegro
+  refund_button: Reintegro
+  recurring_payment: Recurring payment
+  credit_card_token: credit card token
+  settlement: Settlement
+  settlement_button: Close day
+  gateway_id: gateway id

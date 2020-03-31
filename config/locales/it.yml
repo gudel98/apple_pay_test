@@ -1,0 +1,20 @@
+it:
+  amount: 'quantità(0.00)'
+  apple_pay_test: Apple Pay Prova
+  authorization: Autorizzazione
+  authorization_button: Autorizzazione
+  authorization_uid: 'uid transazione (Autorizzazione)'
+  capture: Capture
+  capture_button: Capture
+  void: Annullamento
+  void_button: Annullamento
+  payment: Pagamento
+  payment_button: Pagamento
+  payment_uid: 'uid transazione (Pagamento)'
+  refund: Rimborso
+  refund_button: Rimborso
+  recurring_payment: Recurring payment
+  credit_card_token: credit card token
+  settlement: Settlement
+  settlement_button: Close day
+  gateway_id: gateway id

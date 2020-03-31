@@ -1,10 +1,10 @@
-en:
-  amount: 'amount(0.00)'
+sv:
+  amount: 'belopp(0.00)'
   apple_pay_test: Apple Pay Test
   authorization: Authorization
   authorization_button: Authorize
   authorization_uid: authorization uid
-  capture: Partial shipment
+  capture: Capture
   capture_button: Capture
   void: Void
   void_button: Void

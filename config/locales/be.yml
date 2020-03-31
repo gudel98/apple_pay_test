@@ -1,0 +1,20 @@
+be:
+  amount: 'сума(0.00)'
+  apple_pay_test: Apple Pay Тэст
+  authorization: Аўтарызацыя
+  authorization_button: Аўтарызаваць
+  authorization_uid: uid аўтарызацыі
+  capture: Спісанне сродкаў
+  capture_button: Спісаць
+  void: Скасаванне аўтарызацыі
+  void_button: Скасаваць
+  payment: Плацёж
+  payment_button: Аплаціць
+  payment_uid: uid плацяжу
+  refund: Зварот сродкаў
+  refund_button: Звярнуць
+  recurring_payment: Паўторны плацеж
+  credit_card_token: Токен крэдытнай карты
+  settlement: Пералік
+  settlement_button: Зачыніць змену
+  gateway_id: id шлюзу

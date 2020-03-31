@@ -1,0 +1,20 @@
+fr:
+  amount: 'montant(0.00)'
+  apple_pay_test: Apple Pay Essai
+  authorization: Autorisation
+  authorization_button: Autorisation
+  authorization_uid: autorisation uid
+  capture: Capture
+  capture_button: Capture
+  void: Annulation
+  void_button: Annulation
+  payment: Paiement
+  payment_button: Paiement
+  payment_uid: paiement uid
+  refund: Remboursement
+  refund_button: Remboursement
+  recurring_payment: Recurring payment
+  credit_card_token: credit card token
+  settlement: Settlement
+  settlement_button: Close day
+  gateway_id: gateway id

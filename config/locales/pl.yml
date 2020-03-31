@@ -1,0 +1,20 @@
+pl:
+  amount: 'kwota(0.00)'
+  apple_pay_test: Apple Pay Próbny
+  authorization: Autoryzacja
+  authorization_button: Autoryzacja
+  authorization_uid: uid autoryzacji
+  capture: Capture
+  capture_button: Capture
+  void: Nieważny
+  void_button: Nieważny
+  payment: Płatność
+  payment_button: Płatność
+  payment_uid: uid płatności
+  refund: Zwrot
+  refund_button: Zwrot
+  recurring_payment: Recurring payment
+  credit_card_token: credit card token
+  settlement: Settlement
+  settlement_button: Close day
+  gateway_id: gateway id

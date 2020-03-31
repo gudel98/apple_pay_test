@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get  'base/index'
+  get '/:locale', to: 'base#index', constraints: { locale: /(be|ru|en|da|de|es|fi|fr|it|ja|ka|no|pl|ro|sv|tr|zh)/ }
   root 'base#index'
 
   get '/docs', to: 'base#docs'

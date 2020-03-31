@@ -1,0 +1,20 @@
+ja:
+  amount: '金額(0.00)'
+  apple_pay_test: Apple Pay Test
+  authorization: 認証
+  authorization_button: 認証
+  authorization_uid: お手続きUID
+  capture: Capture
+  capture_button: Capture
+  void: Void
+  void_button: Void
+  payment: お支払
+  payment_button: お支払
+  payment_uid: お手続きUID
+  refund: 返金
+  refund_button: 返金
+  recurring_payment: Recurring payment
+  credit_card_token: credit card token
+  settlement: Settlement
+  settlement_button: Close day
+  gateway_id: gateway id

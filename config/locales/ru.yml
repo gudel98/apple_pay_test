@@ -1,0 +1,20 @@
+ru:
+  amount: 'сумма(0.00)'
+  apple_pay_test: Apple Pay Тест
+  authorization: Авторизация
+  authorization_button: Авторизовать
+  authorization_uid: uid авторизации
+  capture: Списание средств
+  capture_button: Списать
+  void: Отмена авторизации
+  void_button: Отменить
+  payment: Платеж
+  payment_button: Оплатить
+  payment_uid: uid платежа
+  refund: Возврат средств
+  refund_button: Вернуть
+  recurring_payment: Рекуррентный платёж
+  credit_card_token: токен кредитной карты
+  settlement: Перечисление
+  settlement_button: Закрыть смену
+  gateway_id: id шлюза

@@ -1,0 +1,20 @@
+zh:
+  amount: '金额(0.00)'
+  apple_pay_test: Apple Pay 试用
+  authorization: 身份验证
+  authorization_button: 身份验证
+  authorization_uid: 交易UID
+  capture: Capture
+  capture_button: Capture
+  void: 转款
+  void_button: 转款
+  payment: 付款
+  payment_button: 付款
+  payment_uid: 交易UID
+  refund: 退款
+  refund_button: 退款
+  recurring_payment: Recurring payment
+  credit_card_token: credit card token
+  settlement: Settlement
+  settlement_button: Close day
+  gateway_id: gateway id

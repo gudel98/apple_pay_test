@@ -1,16 +1,16 @@
-en:
-  amount: 'amount(0.00)'
+fi:
+  amount: 'määrä(0.00)'
   apple_pay_test: Apple Pay Test
-  authorization: Authorization
-  authorization_button: Authorize
-  authorization_uid: authorization uid
-  capture: Partial shipment
+  authorization: Valtuutus
+  authorization_button: Valtuutus
+  authorization_uid: 'tapahtuma uid (Valtuutus)'
+  capture: Capture
   capture_button: Capture
   void: Void
   void_button: Void
-  payment: One-time
-  payment_button: Pay
-  payment_uid: payment uid
+  payment: Maksu
+  payment_button: Maksu
+  payment_uid: 'tapahtuma uid (Maksu)'
   refund: Refund
   refund_button: Refund
   recurring_payment: Recurring payment

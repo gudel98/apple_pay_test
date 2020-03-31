@@ -1,0 +1,20 @@
+tr:
+  amount: 'tutar(0.00)'
+  apple_pay_test: Apple Pay Deneme
+  authorization: Yetkilendirme
+  authorization_button: Yetkilendirme
+  authorization_uid: 'Işlem uid (Yetkilendirme)'
+  capture: Capture
+  capture_button: Capture
+  void: İptal
+  void_button: İptal
+  payment: Ödeme
+  payment_button: Ödeme
+  payment_uid: 'Işlem uid (Ödeme)'
+  refund: Geri Ödeme
+  refund_button: Geri Ödeme
+  recurring_payment: Recurring payment
+  credit_card_token: credit card token
+  settlement: Settlement
+  settlement_button: Close day
+  gateway_id: gateway id
