@@ -7,6 +7,7 @@
 </div>
 <section class="content text-center">
   <div class="container" style="padding: inherit">
+    <div id="locale" style="display: none" value="<%= I18n.locale %>"></div>
     <div class="messages" style="display: none"></div>
     <div class="row">
       <div class="col-sm-4">
@@ -181,7 +182,8 @@
       data: {
         amount: $("#" + txn_type + " #amount")[0].value,
         currency: $("#" + txn_type + " #currency")[0].value,
-        txn_type: txn_type
+        txn_type: txn_type,
+        locale: $('#locale').attr('value')
       },
       datatype: 'script',
       beforeSend: function(data) {
