@@ -53,7 +53,7 @@
               <h4><%= t('void') %></h4>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="<%= t('authorization_uid') %>" id="parent_uid">
-                <div id="amount" style="display: none"></div>
+                <input type="text" class="form-control" placeholder="<%= t('amount') %>" id="amount">
               </div>
               <button type="button" class="btn btn-secondary" onclick="sendChildTxn('void')"><%= t('void_button') %></button>
             </form>
