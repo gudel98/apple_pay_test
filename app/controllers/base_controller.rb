@@ -102,7 +102,7 @@ class BaseController < ApplicationController
       }
     }
 
-    response = ctp_connection.post('https://checkout-staging.begateway.com/ctp/api/checkouts', data.to_json)
+    response = ctp_connection.post('https://checkout.bepaid.by/ctp/api/checkouts', data.to_json)
     response = JSON.parse(response.body)['checkout']
     redirect_to "https://#{URI(response['redirect_url']).host}/widget/hpp.html?token=#{response['token']}"
   rescue Faraday::ConnectionFailed => error
@@ -145,7 +145,7 @@ class BaseController < ApplicationController
     @gw_connection ||= BeGateway::Client.new(
       shop_id: DEMO_SHOP_ID,
       secret_key: DEMO_SHOP_SECRET_KEY,
-      url: 'https://demo-gateway-staging.begateway.com'
+      url: 'https://gateway.bepaid.by'
     )
   end
 
