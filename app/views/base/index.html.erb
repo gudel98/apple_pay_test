@@ -9,6 +9,19 @@
   <div class="container" style="padding: inherit">
     <div id="locale" style="display: none" value="<%= I18n.locale %>"></div>
     <div class="messages" style="display: none"></div>
+    <% if @result[:uid].present? && @result[:status].present? %>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              UID: <%= @result[:uid] %><br>
+              STATUS: <%= @result[:status] %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+    <% end %>
     <div class="row">
       <div class="col-sm-4">
         <div class="card">

@@ -6,6 +6,7 @@ class BaseController < ApplicationController
 
   def index
     I18n.locale = params[:locale] || I18n.default_locale
+    @result = params
   end
 
   def docs
@@ -95,7 +96,7 @@ class BaseController < ApplicationController
         },
         customer: {},
         settings: {
-          return_url: 'https://ecomcharge-applepay.herokuapp.com/',
+          return_url: "https://ecomcharge-applepay.herokuapp.com/#{params[:locale]}",
           language: params[:locale]
         }
       }
