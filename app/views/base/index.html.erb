@@ -196,7 +196,9 @@
       data: { uid: $('#return_uid').attr('value') },
       datatype: 'script',
       success: function(data) {
-        $('#recurring #token')[0].value = data['credit_card_token'];
+        if (data != undefined) {
+          $('#recurring #token')[0].value = data['credit_card_token'];
+        }
       }
     })
   }
