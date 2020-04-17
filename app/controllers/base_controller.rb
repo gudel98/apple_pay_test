@@ -1,6 +1,9 @@
 class BaseController < ApplicationController
   skip_before_action :verify_authenticity_token, except: :index
 
+  GW_HOST = 'https://gateway.bepaid.by'
+  CTP_HOST = 'https://checkout.bepaid.by'
+  HEROKU_HOST = 'https://ecomcharge-applepay.herokuapp.com'
   DEMO_SHOP_ID = 10053
   DEMO_SHOP_SECRET_KEY = '4e549e819a7d1dd5f6bc05a0941d63df6d80cf96c400bf3c86916666d916d89e'
 
@@ -82,6 +85,17 @@ class BaseController < ApplicationController
     commit('close_days', data)
   end
 
+  def credit_card_token
+    if params[:uid].present?
+      response = gw_faraday_connection.get("#{GW_HOST}/transactions/#{params[:uid]}")
+      cc_token = JSON.parse(response.body).dig('transaction', 'credit_card', 'token')
+
+      render json: { status: 200, credit_card_token: cc_token }
+    end
+  rescue JSON::ParserError, TypeError
+    render json: { status: 500, message: 'Unable to parse Gateway response' }
+  end
+
   private
 
   def redirect_with_token
@@ -96,13 +110,13 @@ class BaseController < ApplicationController
         },
         customer: {},
         settings: {
-          return_url: "https://ecomcharge-applepay.herokuapp.com/#{params[:locale]}",
+          return_url: "#{HEROKU_HOST}/#{params[:locale]}",
           language: params[:locale]
         }
       }
     }
 
-    response = ctp_connection.post('https://checkout.bepaid.by/ctp/api/checkouts', data.to_json)
+    response = ctp_connection.post("#{CTP_HOST}/ctp/api/checkouts", data.to_json)
     response = JSON.parse(response.body)['checkout']
     redirect_to "https://#{URI(response['redirect_url']).host}/widget/hpp.html?token=#{response['token']}"
   rescue Faraday::ConnectionFailed => error
@@ -145,7 +159,7 @@ class BaseController < ApplicationController
     @gw_connection ||= BeGateway::Client.new(
       shop_id: DEMO_SHOP_ID,
       secret_key: DEMO_SHOP_SECRET_KEY,
-      url: 'https://gateway.bepaid.by'
+      url: GW_HOST
     )
   end
 
@@ -155,6 +169,15 @@ class BaseController < ApplicationController
       c.headers['X-Api-Version'] = '2.1'
       c.options[:open_timeout] = 5
       c.options[:timeout] = 20
+      c.request(:basic_auth, DEMO_SHOP_ID, DEMO_SHOP_SECRET_KEY)
+      c.adapter(Faraday.default_adapter)
+    end
+  end
+
+  def gw_faraday_connection
+    @ctp_connection ||= Faraday::Connection.new(ssl: { verify: false }) do |c|
+      c.options[:open_timeout] = 10
+      c.options[:timeout] = 30
       c.request(:basic_auth, DEMO_SHOP_ID, DEMO_SHOP_SECRET_KEY)
       c.adapter(Faraday.default_adapter)
     end

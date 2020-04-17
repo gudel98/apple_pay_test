@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   post '/refund',    to: 'base#refund'
   post '/recurring', to: 'base#recurring'
   post '/close_day', to: 'base#close_day'
+  post '/credit_card_token', to: 'base#credit_card_token'
 end

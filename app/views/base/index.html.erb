@@ -8,6 +8,7 @@
 <section class="content text-center">
   <div class="container" style="padding: inherit">
     <div id="locale" style="display: none" value="<%= I18n.locale %>"></div>
+    <div id="return_uid" style="display: none" value="<%= @result[:uid] %>"></div>
     <div class="messages" style="display: none"></div>
     <% if @result[:uid].present? && @result[:status].present? %>
       <div class="row">
@@ -126,7 +127,7 @@
           <div class="card-body">
             <form id="recurring">
               <h4><%= t('recurring_payment') %></h4>
-              <input type="text" class="form-control" placeholder="<%= t('credit_card_token') %>" id="token">
+              <input type="text" class="form-control" placeholder="<%= t('credit_card_token') %>" id="token" value>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <button class="btn btn-outline-secondary dropdown-toggle"
@@ -178,14 +179,26 @@
 <script type="text/javascript" src="https://js-staging.begateway.com/widget/apple_pay.js"></script>
 <script>
   window.onload = () => {
-    const params = { checkout_url: 'https://checkout-staging.begateway.com', checkout: { apple_pay_container_id: 'apple-pay-button' } };
+    const params = { checkout_url: 'https://checkout.bepaid.by', checkout: { apple_pay_container_id: 'apple-pay-button' } };
     const { checkout_url, checkout: { apple_pay_container_id } } = params;
     this.pay = new ApplePay({
       apple_pay_container_id,
       checkout_url,
       token: '',
-      public_key: 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0++mGSWP00f7L0mwaXkwVFqdwUmJlGodVALZv7k1UO35ERPxIg+iGqhPNYoAKn9OgP1dlbqJbGAUkdnLhlnt6lbAIn35zs8q3mwJfuwn9c+3FhNQa4UAIGQYOP1dPjXqxyJ1ZPU0G99QHZGHi0t+PZfbXWz7HOtFv+MHz9u2bv9zn6MNq1rTUJ5Xv1xtqjRFzFYp7ySIRsBuTGSxbqYWUiA10qKz8ySEuGfo80vmv81af+udLBI/cgoaYdaLvX+VkPOart8se+tVclQCJHQLwNtL+99mO+hzdpKFGBu9nBVkH+g76YfWGG7H3laW+c0w1zY3npiUwXrzYbYqikztLwIDAQAB'
+      public_key: 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0fYvERfQV3iUSkIpWpJqDO9thU5nXpMmBZHCdzLU8hOTmCXvsSLYxyzcUzZUeMfjwq1FFMCKOPed61nLPyqwkQvij+FwqVkl7GoxnLaPGFKpe6iHvJAxEDBAk2OFd9+L+BeW8+mi0yg5INwhSODE8/dM6217OOLcRbQ879tFN7bZTj95LFUhicSxLaQp0Jnb5Hg+FAz6OjuDLhvestz6QoSbXEFLc2XSEce/Gk33YI+3mFegklQy6xDCD8SqXPwrwINjr5z7PaeTXyT0cKkQD+wbQP1ddwuy1lgMuacMnSFNnubiI/6UF8wSyY9EInIWjjBLSQDwDHoNwQ+8G1lHCQIDAQAB'
     }).pay;
+  }
+
+  window.onload = () => {
+    $.ajax({
+      url: '/credit_card_token',
+      type: 'post',
+      data: { uid: $('#return_uid').attr('value') },
+      datatype: 'script',
+      success: function(data) {
+        $('#recurring #token')[0].value = data['credit_card_token'];
+      }
+    })
   }
 
   this.openWidget = function(txn_type) {
