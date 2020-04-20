@@ -72,7 +72,7 @@ class BaseController < ApplicationController
         email: 'john@example.com'
       }
     }
-    commit(params[:txn_type], data)
+    commit(params[:txn_type], data, true)
   end
 
   def close_day
@@ -126,18 +126,22 @@ class BaseController < ApplicationController
     render json: { status: 500, message: error.message }
   end
 
-  def commit(type, data)
+  def commit(type, data, recurring = false)
     response = gw_connection.public_send(type, data)
     if response&.transaction&.successful?
-      result  = case type
-                when 'capture' then 'captured'
-                when 'void'    then 'voided'
-                when 'refund'  then 'refunded'
-                when 'payment' then 'paid'
-                when 'authorization' then 'authorized'
-                end
-      message = "#{params[:parent_uid]} | #{params[:amount]} #{response.transaction.currency} was successfully #{result}"
-      render json: { status: 200, message: message }
+      if recurring
+        redirect_to "#{root_path}/#{locale}?uid=#{response.transaction.uid}&status=#{response.transaction.status}"
+      else
+        result = case type
+                 when 'capture'       then 'captured'
+                 when 'void'          then 'voided'
+                 when 'refund'        then 'refunded'
+                 when 'payment'       then 'paid'
+                 when 'authorization' then 'authorized'
+                 end
+        message = "#{params[:parent_uid]} | #{params[:amount]} #{response.transaction.currency} was successfully #{result}"
+        render json: { status: 200, message: message }
+      end
     else
       render json: { status: response.status, message: response.transaction.message || response.message }
     end
