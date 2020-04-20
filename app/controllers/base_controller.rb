@@ -52,7 +52,7 @@ class BaseController < ApplicationController
     data = {
       amount: money_format(params[:amount]),
       currency: params[:currency],
-      description: 'ApplePay test recurring payment',
+      description: "ApplePay test recurring #{params[:txn_type]}",
       tracking_id: 'apple_pay_test_tracking_id',
       test: false,
       billing_address: {
@@ -72,7 +72,7 @@ class BaseController < ApplicationController
         email: 'john@example.com'
       }
     }
-    commit('payment', data)
+    commit(params[:txn_type], data)
   end
 
   def close_day
@@ -85,10 +85,11 @@ class BaseController < ApplicationController
 
   def credit_card_token
     if params[:uid].present?
-      response = gw_faraday_connection.get("#{GW_HOST}/transactions/#{params[:uid]}")
-      cc_token = JSON.parse(response.body).dig('transaction', 'credit_card', 'token')
+      response = JSON.parse(gw_faraday_connection.get("#{GW_HOST}/transactions/#{params[:uid]}").body)
+      cc_token = response.dig('transaction', 'credit_card', 'token')
+      txn_type = response.dig('transaction', 'type')
 
-      render json: { status: 200, credit_card_token: cc_token }
+      render json: { status: 200, credit_card_token: cc_token, txn_type: txn_type }
     end
   rescue JSON::ParserError, TypeError
     render json: { status: 500, message: 'Unable to parse Gateway response' }

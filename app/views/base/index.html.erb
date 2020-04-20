@@ -131,6 +131,14 @@
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <button class="btn btn-outline-secondary dropdown-toggle"
+                          type="button" data-toggle="dropdown" id="txn_type" value="payment">payment</button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" id="payment">payment</a>
+                    <a class="dropdown-item" id="authorization">authorization</a>
+                  </div>
+                </div>
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary dropdown-toggle"
                           type="button" data-toggle="dropdown" id="currency" value="BYN">BYN</button>
                   <div class="dropdown-menu">
                     <a class="dropdown-item">BYN</a>
@@ -198,6 +206,7 @@
       success: function(data) {
         if (data != undefined) {
           $('#recurring #token')[0].value = data['credit_card_token'];
+          $('#recurring #txn_type')[0].value = data['txn_type'];
         }
       }
     })
@@ -259,6 +268,7 @@
       url: "/recurring",
       type: "post",
       data: {
+        txn_type: $("#recurring #txn_type")[0].value,
         amount: $("#recurring #amount")[0].value,
         currency: $("#recurring #currency")[0].value,
         token: $("#recurring #token")[0].value
