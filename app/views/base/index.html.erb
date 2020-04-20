@@ -277,13 +277,6 @@
       beforeSend: function(data) {
         showMessage('warning', 'Sending request...');
         $(window).scrollTop(0);
-      },
-      success: function(data) {
-        if (data.status == 200) {
-          showMessage('success', data.message);
-        } else {
-          showMessage('danger', data.message);
-        }
       }
     })
   };
