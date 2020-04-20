@@ -134,8 +134,9 @@ class BaseController < ApplicationController
                 when 'void'    then 'voided'
                 when 'refund'  then 'refunded'
                 when 'payment' then 'paid'
+                when 'authorization' then 'authorized'
                 end
-      message = "#{params[:parent_uid]}: #{params[:amount]} #{response.transaction.currency} was successfully #{result}"
+      message = "#{params[:parent_uid]} | #{params[:amount]} #{response.transaction.currency} was successfully #{result}"
       render json: { status: 200, message: message }
     else
       render json: { status: response.status, message: response.transaction.message || response.message }
