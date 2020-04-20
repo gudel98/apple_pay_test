@@ -50,28 +50,26 @@ class BaseController < ApplicationController
 
   def recurring
     data = {
-      request: {
-        amount: money_format(params[:amount]),
-        currency: params[:currency],
-        description: 'ApplePay test recurring payment',
-        tracking_id: 'apple_pay_test_tracking_id',
-        test: false,
-        billing_address: {
-          first_name: 'John',
-          last_name: 'Doe',
-          country: 'US',
-          city: 'Denver',
-          state: 'CO',
-          zip: '96002',
-          address: '1st Street'
-        },
-        credit_card: {
-          token: params[:token]
-        },
-        customer: {
-          ip: '127.0.0.1',
-          email: 'john@example.com'
-        }
+      amount: money_format(params[:amount]),
+      currency: params[:currency],
+      description: 'ApplePay test recurring payment',
+      tracking_id: 'apple_pay_test_tracking_id',
+      test: false,
+      billing_address: {
+        first_name: 'John',
+        last_name: 'Doe',
+        country: 'US',
+        city: 'Denver',
+        state: 'CO',
+        zip: '96002',
+        address: '1st Street'
+      },
+      credit_card: {
+        token: params[:token]
+      },
+      customer: {
+        ip: '127.0.0.1',
+        email: 'john@example.com'
       }
     }
     commit('payment', data)
@@ -139,7 +137,7 @@ class BaseController < ApplicationController
       message = "#{params[:parent_uid]}: #{params[:amount]} #{response.transaction.currency} was successfully #{result}"
       render json: { status: 200, message: message }
     else
-      render json: { status: response.status, message: response.message }
+      render json: { status: response.status, message: response.transaction.message || response.message }
     end
   rescue NoMethodError
     if type == 'close_days'
