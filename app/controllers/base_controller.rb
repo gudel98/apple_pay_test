@@ -130,7 +130,7 @@ class BaseController < ApplicationController
     response = gw_connection.public_send(type, data)
     if response&.transaction&.successful?
       if recurring
-        redirect_to "#{root_path}/#{locale}?uid=#{response.transaction.uid}&status=#{response.transaction.status}"
+        redirect_to "#{root_url}/#{locale}?uid=#{response.transaction.uid}&status=#{response.transaction.status}"
       else
         result = case type
                  when 'capture'       then 'captured'
