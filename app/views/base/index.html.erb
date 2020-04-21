@@ -82,7 +82,6 @@
           <div class="card-body">
             <form id="payment">
               <h4><%= t('payment') %></h4>
-              <div id="apple-pay-button"></div>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <button class="btn btn-outline-secondary dropdown-toggle"
@@ -95,6 +94,7 @@
                 </div>
                 <input type="text" class="form-control" placeholder="<%= t('amount') %>" id="amount">
               </div>
+              <div id="apple-pay-button"></div>
               <button type="button" class="btn btn-dark" onclick="openWidget('payment')"><%= t('payment_button') %></button>
             </form>
           </div>
@@ -209,8 +209,8 @@
           url: 'https://begateway.com/',
         },
         order:{
-          currency: 'USD',
-          amount : 100,
+          currency: $('#payment #currency')[0].value,
+          amount : $('#payment #amount')[0].value,
           description : 'Apple Pay Test authorization from button',
           additional_data: {
             customer: {
