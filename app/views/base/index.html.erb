@@ -187,17 +187,6 @@
 <script type="text/javascript" src="https://js.bepaid.by/widget/apple_pay.js"></script>
 <script>
   window.onload = () => {
-    const params = { checkout_url: 'https://checkout.bepaid.by', checkout: { apple_pay_container_id: 'apple-pay-button' } };
-    const { checkout_url, checkout: { apple_pay_container_id } } = params;
-    this.pay = new ApplePay({
-      apple_pay_container_id,
-      checkout_url,
-      token: '',
-      public_key: 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0fYvERfQV3iUSkIpWpJqDO9thU5nXpMmBZHCdzLU8hOTmCXvsSLYxyzcUzZUeMfjwq1FFMCKOPed61nLPyqwkQvij+FwqVkl7GoxnLaPGFKpe6iHvJAxEDBAk2OFd9+L+BeW8+mi0yg5INwhSODE8/dM6217OOLcRbQ879tFN7bZTj95LFUhicSxLaQp0Jnb5Hg+FAz6OjuDLhvestz6QoSbXEFLc2XSEce/Gk33YI+3mFegklQy6xDCD8SqXPwrwINjr5z7PaeTXyT0cKkQD+wbQP1ddwuy1lgMuacMnSFNnubiI/6UF8wSyY9EInIWjjBLSQDwDHoNwQ+8G1lHCQIDAQAB'
-    }).pay;
-  }
-
-  window.onload = () => {
     $.ajax({
       url: '/credit_card_token',
       type: 'post',
@@ -210,6 +199,40 @@
         }
       }
     })
+
+    var params = {
+      checkout_url: 'https://checkout.bepaid.by',
+      widget: 'widget.html',
+      public_key: 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0fYvERfQV3iUSkIpWpJqDO9thU5nXpMmBZHCdzLU8hOTmCXvsSLYxyzcUzZUeMfjwq1FFMCKOPed61nLPyqwkQvij+FwqVkl7GoxnLaPGFKpe6iHvJAxEDBAk2OFd9+L+BeW8+mi0yg5INwhSODE8/dM6217OOLcRbQ879tFN7bZTj95LFUhicSxLaQp0Jnb5Hg+FAz6OjuDLhvestz6QoSbXEFLc2XSEce/Gk33YI+3mFegklQy6xDCD8SqXPwrwINjr5z7PaeTXyT0cKkQD+wbQP1ddwuy1lgMuacMnSFNnubiI/6UF8wSyY9EInIWjjBLSQDwDHoNwQ+8G1lHCQIDAQAB',
+      merchantIdentifier: 'ecom-production-9-360',
+      apple_pay_container_id: 'apple-pay-container',
+      supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
+      checkout: {
+        test: true,
+        transaction_type: 'authorization',
+        shop: {
+          url: 'https://begateway.com/',
+        },
+        order:{
+          currency: 'USD',
+          amount : 100,
+          description : 'Apple Pay Test authorization from button',
+          additional_data: {
+            customer: {
+              id: 'b17727a9-0632-4454-b639-b941826be36f'
+            }
+          }
+        },
+        settings: {
+          auto_return: 5,
+          return_url: 'https://ecomcharge-applepay.herokuapp.com/',
+          language: 'en',
+          // customer_fields : { "visible": null }
+        }
+      }
+    };
+    const applePay = new ApplePay(params);
+    this.pay = applePay.pay;
   }
 
   this.openWidget = function(txn_type) {
