@@ -4,8 +4,8 @@ class BaseController < ApplicationController
   GW_HOST = 'https://gateway.bepaid.by'
   CTP_HOST = 'https://checkout.bepaid.by'
   HEROKU_HOST = 'https://ecomcharge-applepay.herokuapp.com'
-  DEMO_SHOP_ID = 4590
-  DEMO_SHOP_SECRET_KEY = '937a9c661e4b1023936ab5fafe536ceabaa174f748a9311ee0fb56c8a55f24d2'
+  DEMO_SHOP_ID = 10053
+  DEMO_SHOP_SECRET_KEY = '4e549e819a7d1dd5f6bc05a0941d63df6d80cf96c400bf3c86916666d916d89e'
 
   def index
     I18n.locale = params[:locale] || I18n.default_locale
