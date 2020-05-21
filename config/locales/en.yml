@@ -9,6 +9,7 @@ en:
   void: Void
   void_button: Void
   payment: One-time
+  authorization_wo_redirect: Authorization without redirect
   payment_button: Pay
   payment_uid: payment uid
   refund: Refund

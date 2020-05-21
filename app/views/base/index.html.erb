@@ -134,6 +134,28 @@
     <br>
     <div class="row">
       <div class="col-sm-4">
+        <div class="card" style="height: 100%">
+          <div class="card-body">
+            <form id="authorization_wo_redirect">
+              <h4><%= t('authorization_wo_redirect') %></h4>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary dropdown-toggle"
+                          type="button" data-toggle="dropdown" id="currency" value="BYN">BYN</button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item">BYN</a>
+                    <a class="dropdown-item">USD</a>
+                    <a class="dropdown-item">EUR</a>
+                  </div>
+                </div>
+                <input type="text" class="form-control" placeholder="<%= t('amount') %>" id="amount">
+              </div>
+              <button type="button" class="btn btn-dark" onclick="payment()" href="#"><%= t('payment_button') %></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
         <div class="card">
           <div class="card-body">
             <form id="recurring">
@@ -261,6 +283,36 @@
         showMessage('warning', 'Sending request...')
       }
     })
+  };
+
+  this.payment = function() {
+    var params ={
+      checkout_url: "https://checkout.bepaid.by",
+      checkout: {
+        iframe: true,
+        test: false,
+        transaction_type: "authorization",
+        public_key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0fYvERfQV3iUSkIpWpJqDO9thU5nXpMmBZHCdzLU8hOTmCXvsSLYxyzcUzZUeMfjwq1FFMCKOPed61nLPyqwkQvij+FwqVkl7GoxnLaPGFKpe6iHvJAxEDBAk2OFd9+L+BeW8+mi0yg5INwhSODE8/dM6217OOLcRbQ879tFN7bZTj95LFUhicSxLaQp0Jnb5Hg+FAz6OjuDLhvestz6QoSbXEFLc2XSEce/Gk33YI+3mFegklQy6xDCD8SqXPwrwINjr5z7PaeTXyT0cKkQD+wbQP1ddwuy1lgMuacMnSFNnubiI/6UF8wSyY9EInIWjjBLSQDwDHoNwQ+8G1lHCQIDAQAB",
+        order: {
+          amount: $("#authorization_wo_redirect #amount")[0].value,
+          currency: $("#authorization_wo_redirect #currency")[0].value,
+          description: "Apple Pay Test authorization without redirect",
+          tracking_id: "apple_auth_wo_redirect"
+        },
+      },
+      closeWidget: function(status) {
+        // возможные значения status
+        // successful - операция успешна
+        // failed - операция не успешна
+        // pending - ожидаем результат/подтверждение операции
+        // redirected - пользователь отправлен на внешнюю платежную систему
+        // error - ошибка (в параметрах/сети и тд)
+        // null - виджет закрыли без запуска оплаты
+        console.debug('close widget callback')
+      }
+    };
+
+    new BeGateway(params).createWidget();
   };
 
   let timerId;

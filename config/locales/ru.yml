@@ -9,6 +9,7 @@ ru:
   void: Отмена авторизации
   void_button: Отменить
   payment: Платеж
+  authorization_wo_redirect: Авторизация без перенаправления
   payment_button: Оплатить
   payment_uid: uid платежа
   refund: Возврат средств
