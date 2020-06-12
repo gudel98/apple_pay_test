@@ -300,6 +300,11 @@
           description: "Apple Pay Test authorization without redirect",
           tracking_id: "apple_auth_wo_redirect"
         },
+        settings: {
+          auto_return: 5,
+          return_url: 'https://ecomcharge-applepay.herokuapp.com/',
+          language: 'en',
+        }
       },
       closeWidget: function(status) {
         // возможные значения status
