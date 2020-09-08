@@ -1,11 +1,11 @@
 class BaseController < ApplicationController
   skip_before_action :verify_authenticity_token, except: :index
 
-  GW_HOST = 'https://gateway.bepaid.by'
-  CTP_HOST = 'https://checkout.bepaid.by'
-  HEROKU_HOST = 'https://ecomcharge-applepay.herokuapp.com'
-  DEMO_SHOP_ID = 10053
-  DEMO_SHOP_SECRET_KEY = '4e549e819a7d1dd5f6bc05a0941d63df6d80cf96c400bf3c86916666d916d89e'
+  GW_HOST = 'https://demo-gateway-staging.begateway.com'
+  CTP_HOST = 'https://checkout-staging.begateway.com'
+  HEROKU_HOST = 'https://ecomcharge-staging-applepay.herokuapp.com'
+  DEMO_SHOP_ID = 29
+  DEMO_SHOP_SECRET_KEY = 'f1814518ba6451bd85d961480c9387b482bda215decb8ae5ca6b86f80d1e868b'
 
   def index
     I18n.locale = params[:locale] || I18n.default_locale
